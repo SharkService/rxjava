@@ -2,23 +2,28 @@ package com.shark.rxjava;
 
 public class Main {
     public static void main(String[] args) {
-        Observable.create(new ObservableOnSubscribe<Object>() {
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(Emitter<Object> emitter) {
+            public void subscribe(Emitter<String> emitter) {
                 System.out.println("subscribe");
-                emitter.onNext("dsad");
+                emitter.onNext("123");
                 emitter.onError(new Throwable());
                 emitter.onComplete();
             }
-        }).subscribe(new Observer<Object>() {
+        }).map(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String o) {
+                return Integer.parseInt(o);
+            }
+        }).subscribe(new Observer<Integer>() {
             @Override
             public void onSubscribe() {
                 System.out.println("onSubscribe");
             }
 
             @Override
-            public void onNext(Object o) {
-                System.out.println("onNext: "+o);
+            public void onNext(Integer o) {
+                System.out.println("onNext: " + (o + 1));
 
             }
 
