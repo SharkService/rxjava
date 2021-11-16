@@ -10,10 +10,13 @@ public class Main {
                 emitter.onError(new Throwable());
                 emitter.onComplete();
             }
-        }).map(new Function<String, Integer>() {
+        }).flatMap(new Function<String, ObservableSource<Integer>>() {
             @Override
-            public Integer apply(String o) {
-                return Integer.parseInt(o);
+            public ObservableSource<Integer> apply(String o) {
+                return Observable.create(emitter -> {
+                    emitter.onNext(555);
+                    emitter.onNext(777);
+                });
             }
         }).subscribe(new Observer<Integer>() {
             @Override

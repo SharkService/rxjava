@@ -17,4 +17,8 @@ public abstract class Observable<T> implements ObservableSource<T> {
     public <R> ObservableMap<T, R> map(Function<T, R> function) {
         return new ObservableMap<>(this, function);
     }
+
+    public <R> ObservableFlatMap<T, R> flatMap(Function<T, ObservableSource<R>> function) {
+        return new ObservableFlatMap<>(this, function);
+    }
 }
